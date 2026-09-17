@@ -1,0 +1,39 @@
+# Python virtual environment
+venv/
+.venv/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+
+# Security scan reports
+reports/
+findings/
+odc-data/
+
+gitleaks-report.json
+semgrep-results.txt
+trivy-report.txt
+pip-audit-report.json
+
+# Dependency-Check
+dependency-check-report.html
+dependency-check-report.json
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
