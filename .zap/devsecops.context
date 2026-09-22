@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<configuration>
+    <context>
+        <name>DevSecOps Application</name>
+
+        <desc>Context for the intentionally vulnerable DevSecOps test application</desc>
+
+        <inscope>
+            <url>http://localhost:5001/.*</url>
+        </inscope>
+
+        <incregexes>
+            <regex>http://localhost:5001/.*</regex>
+        </incregexes>
+
+        <tech>
+            <include>Db</include>
+            <include>Language</include>
+            <include>OS</include>
+            <include>SCM</include>
+            <include>WS</include>
+        </tech>
+    </context>
+</configuration>

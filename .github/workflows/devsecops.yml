@@ -78,7 +78,8 @@ jobs:
       - name: OWASP ZAP Baseline Scan
         uses: zaproxy/action-baseline@v0.15.0
         with:
-          target: "http://localhost:5001"
+          target: "http://localhost:5001/login"
+          rules_file_name: ".zap/rules.tsv"
           allow_issue_writing: false
           artifact_name: "zap-baseline-report"
 
