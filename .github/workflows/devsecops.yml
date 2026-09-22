@@ -49,11 +49,42 @@ jobs:
         run: |
           docker build -t vulnerable-app .
 
-      # 8. Run Trivy
-      - name: Trivy Container Scan
-        uses: aquasecurity/trivy-action@master
+      # 8. Start application
+      - name: Start Application
+        run: |
+          docker run -d \
+            --name vulnerable-app-container \
+            -p 5001:5001 \
+            vulnerable-app
+
+      # 9. Wait for application
+      - name: Wait for Application
+        run: |
+          for i in {1..30}; do
+            if curl --fail http://localhost:5001/login; then
+              echo "Application is ready"
+              exit 0
+            fi
+
+            echo "Waiting for application..."
+            sleep 2
+          done
+
+          echo "Application failed to start"
+          docker logs vulnerable-app-container
+          exit 1
+
+      # 10. OWASP ZAP baseline scan
+      - name: OWASP ZAP Baseline Scan
+        uses: zaproxy/action-baseline@v0.15.0
         with:
-          image-ref: vulnerable-app
-          severity: HIGH,CRITICAL
-          ignore-unfixed: true
-          exit-code: 1
+          target: "http://localhost:5001"
+          allow_issue_writing: false
+          artifact_name: "zap-baseline-report"
+
+      # 11. Stop application
+      - name: Stop Application
+        if: always()
+        run: |
+          docker stop vulnerable-app-container || true
+          docker rm vulnerable-app-container || true
