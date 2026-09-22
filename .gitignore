@@ -21,6 +21,7 @@ gitleaks-report.json
 semgrep-results.txt
 trivy-report.txt
 pip-audit-report.json
+.zap/reports/
 
 # Dependency-Check
 dependency-check-report.html

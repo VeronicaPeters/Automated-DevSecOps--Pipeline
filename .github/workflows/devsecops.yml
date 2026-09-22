@@ -74,16 +74,25 @@ jobs:
           docker logs vulnerable-app-container
           exit 1
 
-      # 10. OWASP ZAP baseline scan
-      - name: OWASP ZAP Baseline Scan
-        uses: zaproxy/action-baseline@v0.15.0
-        with:
-          target: "http://localhost:5001/login"
-          rules_file_name: ".zap/rules.tsv"
-          allow_issue_writing: false
-          artifact_name: "zap-baseline-report"
+      # 10. OWASP ZAP DAST Scan
+      - name: OWASP ZAP DAST Scan
+        run: |
+          docker run --rm \
+            --network=host \
+            -v "${{ github.workspace }}:/zap/wrk/:rw" \
+            ghcr.io/zaproxy/zaproxy:stable \
+            zap.sh -cmd \
+            -autorun /zap/wrk/.zap/zap-plan.yaml
 
-      # 11. Stop application
+      # 11. Upload ZAP DAST report
+      - name: Upload ZAP Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: zap-dast-report
+          path: .zap/reports/zap-report.html
+
+      # 12. Stop application
       - name: Stop Application
         if: always()
         run: |

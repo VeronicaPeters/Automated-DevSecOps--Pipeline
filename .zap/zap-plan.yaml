@@ -1,0 +1,23 @@
+env:
+  contexts:
+    - name: DevSecOps Application
+      urls:
+        - http://localhost:5001/.*
+
+jobs:
+  - type: import
+    parameters:
+      type: url
+      fileName: /zap/wrk/.zap/urls.txt
+
+  - type: passiveScan-wait
+    parameters:
+      maxDuration: 1
+
+  - type: report
+    parameters:
+      template: traditional-html
+      reportDir: /zap/wrk/.zap/reports
+      reportFile: zap-report.html
+      reportTitle: DevSecOps ZAP DAST Report
+      reportDescription: Automated DAST report for the DevSecOps vulnerable application
