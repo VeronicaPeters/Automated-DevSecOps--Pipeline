@@ -5,10 +5,27 @@ env:
         - http://localhost:5001/.*
 
 jobs:
-  - type: import
-    parameters:
-      type: url
-      fileName: /zap/wrk/.zap/urls.txt
+  - type: requestor
+    requests:
+      - url: http://localhost:5001/login
+        name: Login endpoint
+        method: GET
+        responseCode: 200
+
+      - url: http://localhost:5001/admin/users
+        name: Admin users endpoint
+        method: GET
+        responseCode: 200
+
+      - url: http://localhost:5001/search?username=test
+        name: Search endpoint
+        method: GET
+        responseCode: 200
+
+      - url: http://localhost:5001/reset-password?email=test@example.com
+        name: Password reset endpoint
+        method: GET
+        responseCode: 200
 
   - type: passiveScan-wait
     parameters:
