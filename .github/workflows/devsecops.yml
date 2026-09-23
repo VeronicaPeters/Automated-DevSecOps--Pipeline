@@ -77,6 +77,8 @@ jobs:
       # 10. OWASP ZAP DAST Scan
       - name: OWASP ZAP DAST Scan
         run: |
+          mkdir -p .zap/reports
+
           docker run --rm \
             --network=host \
             -v "${{ github.workspace }}:/zap/wrk/:rw" \
@@ -84,7 +86,7 @@ jobs:
             zap.sh -cmd \
             -autorun /zap/wrk/.zap/zap-plan.yaml
 
-      # 11. Upload ZAP DAST report
+      # 11. Upload ZAP Report
       - name: Upload ZAP Report
         if: always()
         uses: actions/upload-artifact@v4
