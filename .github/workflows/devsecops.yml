@@ -78,6 +78,7 @@ jobs:
       - name: OWASP ZAP DAST Scan
         run: |
           mkdir -p .zap/reports
+          chmod 777 .zap/reports
 
           docker run --rm \
             --network=host \
