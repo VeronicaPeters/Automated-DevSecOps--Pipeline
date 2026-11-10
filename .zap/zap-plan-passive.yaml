@@ -1,0 +1,40 @@
+env:
+  contexts:
+    - name: DevSecOps Application
+      urls:
+        - http://localhost:5001/.*
+
+jobs:
+  - type: requestor
+    requests:
+      - url: http://localhost:5001/login
+        name: Login endpoint
+        method: GET
+        responseCode: 200
+
+      - url: http://localhost:5001/admin/users
+        name: Admin users endpoint
+        method: GET
+        responseCode: 200
+
+      - url: http://localhost:5001/search?username=test
+        name: Search endpoint
+        method: GET
+        responseCode: 200
+
+      - url: http://localhost:5001/reset-password?email=test@example.com
+        name: Password reset endpoint
+        method: GET
+        responseCode: 200
+
+  - type: passiveScan-wait
+    parameters:
+      maxDuration: 1
+
+  - type: report
+    parameters:
+      template: traditional-html
+      reportDir: /zap/wrk/.zap/reports
+      reportFile: zap-report.html
+      reportTitle: DevSecOps ZAP DAST Report
+      reportDescription: Automated DAST report for the DevSecOps vulnerable application

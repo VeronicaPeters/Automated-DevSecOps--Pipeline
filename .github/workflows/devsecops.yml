@@ -49,7 +49,27 @@ jobs:
         run: |
           docker build -t vulnerable-app .
 
-      # 8. Start application
+      # 8. Run Trivy container scan
+      - name: Trivy Container Vulnerability Scan
+        run: |
+          docker run --rm \
+            -v /var/run/docker.sock:/var/run/docker.sock \
+            -v "${{ github.workspace }}:/workspace" \
+            aquasec/trivy:latest \
+            image --scanners vuln \
+            --format table \
+            --output /workspace/trivy-image-report.txt \
+            vulnerable-app
+
+      # 9. Upload Trivy Report
+      - name: Upload Trivy Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: trivy-image-report
+          path: trivy-image-report.txt
+
+      # 10. Start application
       - name: Start Application
         run: |
           docker run -d \
@@ -57,7 +77,7 @@ jobs:
             -p 5001:5001 \
             vulnerable-app
 
-      # 9. Wait for application
+      # 11. Wait for application
       - name: Wait for Application
         run: |
           for i in {1..30}; do
@@ -74,7 +94,7 @@ jobs:
           docker logs vulnerable-app-container
           exit 1
 
-      # 10. OWASP ZAP DAST Scan
+      # 12. OWASP ZAP DAST Scan
       - name: OWASP ZAP DAST Scan
         run: |
           mkdir -p .zap/reports
@@ -87,7 +107,7 @@ jobs:
             zap.sh -cmd \
             -autorun /zap/wrk/.zap/zap-plan.yaml
 
-      # 11. Upload ZAP Report
+      # 13. Upload ZAP Report
       - name: Upload ZAP Report
         if: always()
         uses: actions/upload-artifact@v4
@@ -95,7 +115,7 @@ jobs:
           name: zap-dast-report
           path: .zap/reports/zap-report.html
 
-      # 12. Stop application
+      # 14. Stop application
       - name: Stop Application
         if: always()
         run: |

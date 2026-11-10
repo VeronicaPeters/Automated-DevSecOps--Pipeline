@@ -1,0 +1,10 @@
+venv/
+.venv/
+__pycache__/
+*.py[cod]
+.git/
+.github/
+.zap/
+reports/
+screenshots/
+trivy-report.txt
