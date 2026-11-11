@@ -37,7 +37,7 @@ jobs:
       # 5. Run Semgrep
       - name: Semgrep SAST Scan
         run: |
-          semgrep scan --config=auto .
+          semgrep scan --config=auto --error .
 
       # 6. Run pip-audit
       - name: Dependency Scan
