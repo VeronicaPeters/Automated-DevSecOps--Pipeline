@@ -18,6 +18,7 @@ findings/
 odc-data/
 
 gitleaks-report.json
+gitleaks-full-history-report.json
 semgrep-results.txt
 trivy-report.txt
 pip-audit-report.json
