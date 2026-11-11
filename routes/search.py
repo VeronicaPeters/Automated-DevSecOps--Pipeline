@@ -1,13 +1,13 @@
-from flask import request
+from flask import request, jsonify
 
 def search():
 
-    username = request.args.get("username")
+    username = request.args.get("username", "")
 
-    query = f"""
-    SELECT *
-    FROM users
-    WHERE username='{username}'
-    """
+    query = "SELECT * FROM users WHERE username = ?"
 
-    return query
+    return jsonify({
+        "query": query,
+        "parameter": username,
+        "message": "Parameterized query prepared"
+    })

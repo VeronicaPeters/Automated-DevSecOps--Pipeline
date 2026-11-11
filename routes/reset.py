@@ -1,7 +1,10 @@
-from flask import request
+from flask import request, jsonify
 
 def reset():
 
     email = request.args.get("email")
 
-    return f"Password reset sent to {email}"
+    return jsonify({
+        "message": "Password reset request received",
+        "email": email
+    })
