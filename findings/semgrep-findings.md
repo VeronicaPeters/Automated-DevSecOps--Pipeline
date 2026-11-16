@@ -37,7 +37,7 @@ This configuration makes Semgrep part of the pipeline's security quality checks.
 
 ## 3. Latest Scan Results
 
-The latest local scan completed successfully.
+The latest scan completed successfully.
 
 ### Scan summary
 
