@@ -125,7 +125,7 @@ The following improvements were retained as part of the assessment:
 
 Semgrep was successfully integrated into the DevSecOps pipeline as a static application security testing tool.
 
-The latest local scan executed 329 rules against 23 Git-tracked files and reported zero findings.
+The latest scan executed 329 rules against 23 Git-tracked files and reported zero findings.
 
 The `--error` configuration also ensures that qualifying findings can affect the pipeline's execution rather than being treated as informational output only.
 
